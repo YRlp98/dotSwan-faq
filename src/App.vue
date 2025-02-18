@@ -1,9 +1,20 @@
-<script setup lang="ts"></script>
-
 <template>
-	<div class="h-screen flex items-center justify-center text-4xl font-bold">
-		<h1>Hello World! :)</h1>
+	<div>
+		<router-view v-slot="{ Component }">
+			<transition name="fade" mode="out-in">
+				<component :is="Component" />
+			</transition>
+		</router-view>
 	</div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s ease;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+</style>
