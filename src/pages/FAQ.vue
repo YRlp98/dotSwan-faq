@@ -2,7 +2,14 @@
 import { ref, computed, watch, onMounted } from "vue";
 import axios from "axios";
 
-const faqs = ref([]);
+interface Faq {
+	id: number;
+	question: string;
+	answer: string;
+	category: string;
+}
+
+const faqs = ref<Faq[]>([]);
 const searchQuery = ref("");
 const selectedCategory = ref("");
 const categories = ref<string[]>([]);
@@ -71,12 +78,12 @@ onMounted(() => {
 					@input="debounceSearch"
 					type="text"
 					placeholder="Search FAQs..."
-					class="px-4 py-2 border border-gray-300 rounded-md w-full"
+					class="px-4 py-2 border border-gray-300 rounded-lg w-full"
 				/>
 			</div>
 
 			<!-- Category tags -->
-			<div class="mt-6 flex flex-wrap">
+			<div class="mt-6 flex flex-wrap items-center justify-center">
 				<span
 					v-for="(category, index) in categories"
 					:key="index"
@@ -96,7 +103,7 @@ onMounted(() => {
 				<div
 					v-for="(item, index) in filteredFaqs"
 					:key="index"
-					class="faq-item p-4 border mb-4 rounded-md cursor-pointer hover:bg-blue-100"
+					class="faq-item p-4 border border-slate-300 mb-4 rounded-lg cursor-pointer hover:bg-slate-100"
 					@click="toggleFaqAnswer(index)"
 				>
 					<div class="flex justify-between items-center">
