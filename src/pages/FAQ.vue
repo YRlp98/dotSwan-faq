@@ -14,9 +14,11 @@ const searchQuery = ref("");
 const selectedCategory = ref("");
 const categories = ref<string[]>([]);
 const selectedFaq = ref<number | null>(null);
+const isLoading = ref(true);
 
 const fetchFaqs = async () => {
 	try {
+		isLoading.value = true;
 		const response = await axios.get(
 			"https://thuisborg.dotcms.online/api/v1/content-manger/get-data/tb-faq?sortBy=id&orderBy=asc"
 		);
@@ -24,6 +26,8 @@ const fetchFaqs = async () => {
 		categories.value = Array.from(new Set(faqs.value.map((faq) => faq.category)));
 	} catch (error) {
 		console.error("Error fetching FAQs:", error);
+	} finally {
+		isLoading.value = false;
 	}
 };
 
@@ -32,7 +36,7 @@ const debounceSearch = () => {
 	if (debounceTimer) clearTimeout(debounceTimer);
 	debounceTimer = setTimeout(() => {
 		console.log(searchQuery.value);
-	}, 500);
+	}, 1000);
 };
 
 const toggleTag = (category: string) => {
@@ -96,6 +100,20 @@ onMounted(() => {
 				>
 					{{ category }}
 				</span>
+			</div>
+
+			<!-- Loading -->
+			<div v-if="isLoading" class="mt-4 flex items-center justify-center gap-2">
+				<svg
+					class="animate-spin h-8 w-8 text-blue-500"
+					xmlns="http://www.w3.org/2000/svg"
+					fill="none"
+					viewBox="0 0 24 24"
+				>
+					<circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+					<path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v2a6 6 0 00-6 6H4z"></path>
+				</svg>
+				<span class="text-blue-500">Loading FAQs... </span>
 			</div>
 
 			<!-- FAQ List -->
