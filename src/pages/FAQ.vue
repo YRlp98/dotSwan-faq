@@ -3,10 +3,10 @@ import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 
 interface Faq {
-	id: number;
+	category: string;
+	subcategory?: string;
 	question: string;
 	answer: string;
-	category: string;
 }
 
 const faqs = ref<Faq[]>([]);
