@@ -10,9 +10,9 @@ interface Faq {
 }
 
 const faqs = ref<Faq[]>([]);
+const categories = ref<string[]>([]);
 const searchQuery = ref("");
 const selectedCategory = ref("");
-const categories = ref<string[]>([]);
 const selectedFaq = ref<number | null>(null);
 const isLoading = ref(true);
 
